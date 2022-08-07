@@ -1,6 +1,7 @@
 """
 Name : SangWoo Lee
 Data : 2022.08.07
+Email : i.am.sangwoo.lee@gmail.com
 """
 from ps3b import subStringMatchExact
 from ps3_template import subStringMatchOneSub
@@ -26,6 +27,7 @@ key11 = 'atg'
 key12 = 'atgc'
 key13 = 'atgca'
 keyli = [key10, key11, key12, key13]
+
 def test():
     for target in tarli:
         for key in keyli:

@@ -1,6 +1,7 @@
 """
 Name : SangWoo Lee
 Data : 2022.08.07
+Email : i.am.sangwoo.lee@gmail.com
 """
 def constrainedMatchPair(firstMatch:tuple, secondMatch:tuple, length:int):
     """
