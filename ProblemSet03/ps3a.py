@@ -1,7 +1,16 @@
-import enum
-from string import *
+"""
+Name : SangWoo Lee
+Data : 2022.08.07
+Email : i.am.sangwoo.lee@gmail.com
+"""
+# print("atgacatgcacaagtatgcat".find("ggcc")) 
+# # don't need to import 'string' as pdf said.
 
 def countSubStringMatch(target:str,key:str):
+    """
+    Take two arguments 'target'(string) and 'key'(string).\n
+    Returns the counts of instances of the key in target string in Non-recursive way.
+    """
     ans = 0 
     cnt = 0
     for i, w in enumerate(target):
@@ -16,6 +25,10 @@ def countSubStringMatch(target:str,key:str):
     else: return ans
 
 def countSubStringMatchRecursive (target:str, key:str):
+    """
+    Takes two string arguments 'target' and 'key'.\n
+    Returns the counts of instances of the key in target string in recursive way.
+    """
     ans = 0 
     if len(target) == 1 and target == key:
         return 1 
@@ -24,29 +37,12 @@ def countSubStringMatchRecursive (target:str, key:str):
             ans += countSubStringMatchRecursive(target[i+1:i+len(key)], key[1:])
     return ans
 
-def Test():
-    print("target is 'abcdbcdegdgbcdezebcde', key is 'bcd'")
-    print("countSubStrinMatch is ", end="")
-    print(countSubStringMatch("abcdbcdegdgbcdezebcde", "bcd"))
-    print("countSubStrinMatchRecursive is ", end="")
-    print(countSubStringMatchRecursive("abcdbcdegdgbcdezebcde", "bcd"))
-    input()
-    print("target is 'aaabbbcccdddabcdcba', key is 'ab'")
-    print("countSubStrinMatch is ", end="")
-    print(countSubStringMatch("aaabbbcccdddabcdcba", "ab"))
-    print("countSubStrinMatchRecursive is ", end="")
-    print(countSubStringMatchRecursive("aaabbbcccdddabcdcba", "ab"))
-    input()
-    print("target is 'f24dv3dvs23154322ffv23f2', key is '23'")
-    print("countSubStrinMatch is ", end="")
-    print(countSubStringMatch("f24dv3dvs23154322ffv23f2", "23"))
-    print("countSubStrinMatchRecursive is ", end="")
-    print(countSubStringMatchRecursive("f24dv3dvs23154322ffv23f2", "23"))
-    input()
-    print("target is 'sangiscodingnowforgettingjob', key is 'ng'")
-    print("countSubStrinMatch is ", end="")
-    print(countSubStringMatch("sangiscodingnowforgettingjob", "ng"))
-    print("countSubStrinMatchRecursive is ", end="")
-    print(countSubStringMatchRecursive("sangiscodingnowforgettingjob", "ng"))
-
-Test()
+# def Test():
+#     targets = ['abcdbcdegdgbcdezebcde', 'aaabbbcccdddabcdcba', 'f24dv3dvs23154322ffv23f2', 'sangiscodingnowforgettingjob']
+#     keys = ['bcd', 'ab', '23', 'ng']
+#     for target, key in zip(targets, keys):
+#         print(f"target is '{target}', key is '{key}'")
+#         print(f"countSubStrinMatch is '{countSubStringMatch(target, key)}'")
+#         print(f"countSubStrinMatchRecursive is '{countSubStringMatchRecursive(target, key)}'")
+#         input()
+# Test()

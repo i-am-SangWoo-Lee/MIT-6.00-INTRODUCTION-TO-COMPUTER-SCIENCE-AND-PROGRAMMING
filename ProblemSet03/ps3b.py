@@ -1,10 +1,17 @@
+"""
+Name : SangWoo Lee
+Data : 2022.08.07
+"""
 def subStringMatchExact(target:str, key:str):
-    ans = [] 
+    """
+    Takes two string arguments 'target', and 'key'.\n
+    Returns every index that pointing where the 'key' exactly matching with the 'target'
+    """
+    ans = []
     cnt = 0
     keyLength = len(key)
     if keyLength == 0:
-        li = [i for i in range(len(target))]
-        return tuple(li)
+        return ()
     for i, w in enumerate(target):
         if w == key[cnt]:
             cnt += 1
@@ -21,13 +28,13 @@ def subStringMatchExact(target:str, key:str):
     else: return tuple(ans)
 
 
-def testing():
-    targets = ['atgacatgcacaagtatgcat', 'atgaatgcatggatgtaaatgcag']
-    keys = ['a', 'atg', 'atgc', 'atgca']
-    for t in targets:
-        for k in keys:
-            print(f"for target '{t}' and key for '{k}' is ", end="")
-            print(subStringMatchExact(t, k))
+# def testing():
+#     targets = ['atgacatgcacaagtatgcat', 'atgaatgcatggatgtaaatgcag']
+#     keys = ['a', 'atg', 'atgc', 'atgca']
+#     for t in targets:
+#         for k in keys:
+#             print(f"for target '{t}' and key for '{k}' is ", end="")
+#             print(subStringMatchExact(t, k))
 
 # testing()
-print(subStringMatchExact('atgacatgcacaagtatgcat', ''))
+# print(subStringMatchExact('atgacatgcacaagtatgcat', ''))
