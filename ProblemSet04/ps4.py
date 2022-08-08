@@ -1,7 +1,8 @@
 # Problem Set 4
-# Name: 
-# Collaborators: 
-# Time: 
+# Name: SangWoo Lee
+# Collaborators: Alone
+# Time: 2022.08.08
+# Email : i.am.sangwoo.lee@gmail.com
 
 #
 # Problem 1
@@ -26,7 +27,7 @@ def testNestEggFixed():
     growthRate = 15
     years      = 5
     savingsRecord = nestEggFixed(salary, save, growthRate, years)
-    print savingsRecord
+    print(savingsRecord)
     # Output should have values close to:
     # [1000.0, 2150.0, 3472.5, 4993.375, 6742.3812499999995]
 
@@ -52,7 +53,7 @@ def testNestEggVariable():
     save        = 10
     growthRates = [3, 4, 5, 0, 3]
     savingsRecord = nestEggVariable(salary, save, growthRates)
-    print savingsRecord
+    print(savingsRecord)
     # Output should have values close to:
     # [1000.0, 2040.0, 3142.0, 4142.0, 5266.2600000000002]
 
@@ -78,7 +79,7 @@ def testPostRetirement():
     growthRates = [10, 5, 0, 5, 1]
     expenses    = 30000
     savingsRecord = postRetirement(savings, growthRates, expenses)
-    print savingsRecord
+    print(savingsRecord)
     # Output should have values close to:
     # [80000.000000000015, 54000.000000000015, 24000.000000000015,
     # -4799.9999999999854, -34847.999999999985]
@@ -112,7 +113,7 @@ def testFindMaxExpenses():
     epsilon               = .01
     expenses = findMaxExpenses(salary, save, preRetireGrowthRates,
                                postRetireGrowthRates, epsilon)
-    print expenses
+    print(expenses)
     # Output should have a value close to:
     # 1229.95548986
 

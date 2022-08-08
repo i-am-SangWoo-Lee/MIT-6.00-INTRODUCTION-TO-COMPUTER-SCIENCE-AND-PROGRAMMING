@@ -1,8 +1,8 @@
 # Problem Set 5: Ghost
-# Name: 
-# Collaborators: 
-# Time: 
-#
+# Name: SangWoo Lee
+# Collaborators: Alone
+# Time: 2022.08.08
+# Email : i.am.sangwoo.lee@gmail.com
 
 import random
 
@@ -20,14 +20,14 @@ def load_words():
     Depending on the size of the word list, this function may
     take a while to finish.
     """
-    print "Loading word list from file..."
+    print("Loading word list from file...")
     # inFile: file
     inFile = open(WORDLIST_FILENAME, 'r', 0)
     # wordlist: list of strings
     wordlist = []
     for line in inFile:
         wordlist.append(line.strip().lower())
-    print "  ", len(wordlist), "words loaded."
+    print(f" '{len(wordlist)}', words loaded.")
     return wordlist
 
 def get_frequency_dict(sequence):

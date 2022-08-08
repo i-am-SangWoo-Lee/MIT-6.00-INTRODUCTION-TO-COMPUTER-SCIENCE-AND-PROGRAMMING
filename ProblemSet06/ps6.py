@@ -27,14 +27,14 @@ def load_words():
     Depending on the size of the word list, this function may
     take a while to finish.
     """
-    print "Loading word list from file..."
+    print("Loading word list from file...")
     # inFile: file
     inFile = open(WORDLIST_FILENAME, 'r', 0)
     # wordlist: list of strings
     wordlist = []
     for line in inFile:
         wordlist.append(line.strip().lower())
-    print "  ", len(wordlist), "words loaded."
+    print("  ", len(wordlist), "words loaded.")
     return wordlist
 
 def get_frequency_dict(sequence):
@@ -98,8 +98,8 @@ def display_hand(hand):
     """
     for letter in hand.keys():
         for j in range(hand[letter]):
-             print letter,              # print all on the same line
-    print                              # print an empty line
+             print(letter,)              # print(all on the same line
+    print()                             # print an empty line
 
 #
 # Make sure you understand how this function works and what it does!
@@ -205,21 +205,21 @@ def play_hand(hand, word_list):
     total = 0
     initial_handlen = sum(hand.values())
     while sum(hand.values()) > 0:
-        print 'Current Hand:',
+        print('Current Hand:',)
         display_hand(hand)
-        userWord = raw_input('Enter word, or a . to indicate that you are finished: ')
+        userWord = input('Enter word, or a . to indicate that you are finished: ')
         if userWord == '.':
              break
         else:
             isValid = is_valid_word(userWord, hand, word_list)
             if not isValid:
-                print 'Invalid word, please try again.'
+                print('Invalid word, please try again.'
             else:
                 points = get_word_score(userWord, initial_handlen)
                 total += points
-                print '%s earned %d points. Total: %d points' % (userWord, points, total)
+                print('%s earned %d points. Total: %d points' % (userWord, points, total)
                 hand = update_hand(hand, userWord)
-    print 'Total score: %d points.' % total
+    print('Total score: %d points.' % total
 
 
 #
@@ -255,7 +255,7 @@ def play_game(word_list):
         elif cmd == 'e':
             break
         else:
-            print "Invalid command."
+            print("Invalid command."
 
 #
 # Build data structures used for entire session and play game

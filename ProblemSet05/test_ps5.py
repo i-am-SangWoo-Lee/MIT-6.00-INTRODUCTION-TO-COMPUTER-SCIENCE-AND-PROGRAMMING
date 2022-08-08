@@ -13,30 +13,30 @@ def test_deal_hand():
     # being returned.
     hand = deal_hand(HAND_SIZE)
     if not type(hand) is dict:
-        print "FAILURE: test_deal_hand()"
-        print "\tUnexpected return type:", type(hand)
+        print("FAILURE: test_deal_hand()")
+        print(f"\tUnexpected return type:", {type(hand)})
         
         return # exit function
 
     num = 0
     for k in hand.keys():
         if (not type(k) is str) or (not type(hand[k]) is int):
-            print "FAILURE: test_deal_hand()"
-            print "\tUnexpected type of dictionary: string -> int expected, but was", type(k), "->", type(hand[k])
+            print("FAILURE: test_deal_hand()")
+            print(f"\tUnexpected type of dictionary: string -> int expected, but was '{type(k)}' -> '{type(hand[k])}'")
 
             return # exit function
         elif not k in "abcdefghijklmnopqrstuvwxyz":
-            print "FAILURE: test_deal_hand()"
-            print "\tDictionary keys are not lowercase letters."
+            print("FAILURE: test_deal_hand()")
+            print(f"\tDictionary keys are not lowercase letters.")
 
             return # exit function
         else:
             num += hand[k]
             
     if num != HAND_SIZE:
-            print "FAILURE: test_deal_hand()"
-            print "\tdeal_hand() returned more letters than it was asked to."
-            print "\tAsked for a hand of size", HAND_SIZE, "but it returned a hand of size", num
+            print("FAILURE: test_deal_hand()")
+            print("\tdeal_hand() returned more letters than it was asked to.")
+            print(f"\tAsked for a hand of size '{HAND_SIZE}' but it returned a hand of size '{num}'")
 
             return # exit function
         
@@ -51,13 +51,13 @@ def test_deal_hand():
         hand1 = hand2
         
     if repeats > 10:
-        print "FAILURE: test_deal_hand()"
-        print "\tSame hand returned", repeats, "times by deal_hand(). This is HIGHLY unlikely."
-        print "\tIs the deal_hand implementation really using random numbers?"
+        print("FAILURE: test_deal_hand()")
+        print(f"\tSame hand returned '{repeats}' times by '{deal_hand()}'. This is HIGHLY unlikely.")
+        print("\tIs the deal_hand implementation really using random numbers?")
 
         return # exit function
     
-    print "SUCCESS: test_deal_hand()"
+    print("SUCCESS: test_deal_hand()")
 
 def test_get_word_score():
     """
@@ -69,11 +69,11 @@ def test_get_word_score():
     for (word, n) in words.keys():
         score = get_word_score(word, n)
         if score != words[(word, n)]:
-            print "FAILURE: test_get_word_score()"
-            print "\tExpected", words[(word, n)], "points but got '" + str(score) + "' for word '" + word + "', n=" + str(n)
+            print("FAILURE: test_get_word_score()")
+            print(f"\tExpected '{words[(word, n)]}' points but got '{str(score)}' for word '{word}', n= '{str(n)}'")
             failure=True
     if not failure:
-        print "SUCCESS: test_get_word_score()"
+        print("SUCCESS: test_get_word_score()")
 
 def test_update_hand():
     """
@@ -87,8 +87,8 @@ def test_update_hand():
     expected_hand1 = {'l':1, 'm':1}
     expected_hand2 = {'a':0, 'q':0, 'l':1, 'm':1, 'u':0, 'i':0}
     if hand2 != expected_hand1 and hand2 != expected_hand2:
-        print "FAILURE: test_update_hand('"+ word +"', " + str(hand) + ")"
-        print "\tReturned: ", hand2, "-- but expected:", expected_hand1, "or", expected_hand2
+        print(f"FAILURE: test_update_hand('{word}' + '{str(hand)}')")
+        print(f"\tReturned: '{hand2}' -- but expected: '{expected_hand1}' or '{expected_hand2}'")
 
         return # exit function
         
@@ -100,8 +100,8 @@ def test_update_hand():
     expected_hand1 = {'v':1, 'n':1, 'l':1}
     expected_hand2 = {'e':0, 'v':1, 'n':1, 'i':0, 'l':1}
     if hand2 != expected_hand1 and hand2 != expected_hand2:
-        print "FAILURE: test_update_hand('"+ word +"', " + str(hand) + ")"        
-        print "\tReturned: ", hand2, "-- but expected:", expected_hand1, "or", expected_hand2
+        print(f"FAILURE: test_update_hand('{word}', '{str(hand)}')")        
+        print(f"\tReturned: '{hand2}' -- but expected: '{expected_hand1}' or '{expected_hand2}'")
 
         return # exit function
 
@@ -113,12 +113,12 @@ def test_update_hand():
     expected_hand1 = {}
     expected_hand2 = {'h': 0, 'e': 0, 'l': 0, 'o': 0}
     if hand2 != expected_hand1 and hand2 != expected_hand2:
-        print "FAILURE: test_update_hand('"+ word +"', " + str(hand) + ")"                
-        print "\tReturned: ", hand2, "-- but expected:", expected_hand1, "or", expected_hand2
+        print(f"FAILURE: test_update_hand('{word}', '{str(hand)}')")        
+        print(f"\tReturned: '{hand2}' -- but expected: '{expected_hand1}' or '{expected_hand2}'")
         
         return # exit function
 
-    print "SUCCESS: test_update_hand()"
+    print("SUCCESS: test_update_hand()")
 
 def test_is_valid_word(word_list):
     """
@@ -130,8 +130,8 @@ def test_is_valid_word(word_list):
     hand = get_frequency_dict(word)
 
     if not is_valid_word(word, hand, word_list):
-        print "FAILURE: test_is_valid_word()"
-        print "\tExpected True, but got False for word: '" + word + "' and hand:", hand
+        print("FAILURE: test_is_valid_word()")
+        print(f"\tExpected True, but got False for word: '{word}' and hand: '{hand}'")
 
         failure = True
 
@@ -140,8 +140,8 @@ def test_is_valid_word(word_list):
     word = "rapture"
 
     if  is_valid_word(word, hand, word_list):
-        print "FAILURE: test_is_valid_word()"
-        print "\tExpected False, but got True for word: '" + word + "' and hand:", hand
+        print("FAILURE: test_is_valid_word()")
+        print(f"\tExpected False, but got True for word: '{word}' and hand: '{hand}'")
 
         failure = True        
 
@@ -150,8 +150,8 @@ def test_is_valid_word(word_list):
     word = "honey"
 
     if  not is_valid_word(word, hand, word_list):
-        print "FAILURE: test_is_valid_word()"
-        print "\tExpected True, but got False for word: '"+ word +"' and hand:", hand
+        print("FAILURE: test_is_valid_word()")
+        print(f"\tExpected True, but got False for word: '{word}' and hand: '{hand}'")
 
         failure = True                        
 
@@ -160,8 +160,8 @@ def test_is_valid_word(word_list):
     word = "honey"
 
     if  is_valid_word(word, hand, word_list):
-        print "FAILURE: test_is_valid_word()"
-        print "\tExpected False, but got True for word: '" + word + "' and hand:", hand
+        print("FAILURE: test_is_valid_word()")
+        print(f"\tExpected False, but got True for word: '{word}' and hand: '{hand}'")
         
         failure = True
 
@@ -170,34 +170,34 @@ def test_is_valid_word(word_list):
     word = "evil"
     
     if  not is_valid_word(word, hand, word_list):
-        print "FAILURE: test_is_valid_word()"
-        print "\tExpected True, but got False for word: '" + word + "' and hand:", hand
-        
+        print("FAILURE: test_is_valid_word()")
+        print(f"\tExpected True, but got False for word: '{word}' and hand: '{hand}'")
+          
         failure = True
         
     # test 6
     word = "even"
 
     if  is_valid_word(word, hand, word_list):
-        print "FAILURE: test_is_valid_word()"
-        print "\tExpected False, but got True for word: '" + word + "' and hand:", hand
-        print "\t(If this is the only failure, make sure is_valid_word() isn't mutating its inputs)"        
+        print("FAILURE: test_is_valid_word()")
+        print(f"\tExpected False, but got True for word: '{word}' and hand: '{hand}'")
+        print("\t(If this is the only failure, make sure is_valid_word() isn't mutating its inputs")        
         
         failure = True        
 
     if not failure:
-        print "SUCCESS: test_is_valid_word()"
+        print("FAILURE: test_is_valid_word()")
 
 
 word_list = load_words()
-print "----------------------------------------------------------------------"
-print "Testing get_word_score..."
+print("----------------------------------------------------------------------")
+print("Testing get_word_score...")
 test_get_word_score()
-print "----------------------------------------------------------------------"
-print "Testing update_hand..."
+print("----------------------------------------------------------------------")
+print("Testing update_hand...")
 test_update_hand()
-print "----------------------------------------------------------------------"
-print "Testing is_valid_word..."
+print("----------------------------------------------------------------------")
+print("Testing is_valid_word...")
 test_is_valid_word(word_list)
-print "----------------------------------------------------------------------"
-print "All done!"
+print("----------------------------------------------------------------------")
+print("All done!")

@@ -13,9 +13,9 @@ def testResult(boolean):
     Succeeded' otherwise.
     """
     if boolean:
-        print 'Test Succeeded'
+        print('Test Succeeded'
     else:
-        print 'Test Failed'
+        print('Test Failed'
 
 def testHand():
     """
@@ -52,7 +52,7 @@ def testAll():
     Run all Tests
     """
 
-    print "Uncomment the tests in this file as you complete each problem."
+    print("Uncomment the tests in this file as you complete each problem.")
 
     # print 'PROBLEM 2 -----------------------------------------'
     # testHand()

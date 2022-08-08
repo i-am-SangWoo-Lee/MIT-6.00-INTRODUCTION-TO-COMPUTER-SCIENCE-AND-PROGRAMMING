@@ -29,7 +29,7 @@ def loadSubjects(filename):
     # each one.
     inputFile = open(filename)
     for line in inputFile:
-        print line
+        print(line
 
     # TODO: Instead of printing each line, modify the above to parse the name,
     # value, and work of each subject and create a dictionary mapping the name
@@ -54,7 +54,7 @@ def printSubjects(subjects):
         totalWork += work
     res = res + '\nTotal Value:\t' + str(totalVal) +'\n'
     res = res + 'Total Work:\t' + str(totalWork) + '\n'
-    print res
+    print(res
 
 def cmpValue(subInfo1, subInfo2):
     """
