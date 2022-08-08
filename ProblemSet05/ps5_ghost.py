@@ -5,6 +5,7 @@
 # Email : i.am.sangwoo.lee@gmail.com
 
 import random
+from re import T
 
 # -----------------------------------
 # Helper code
@@ -22,13 +23,13 @@ def load_words():
     """
     print("Loading word list from file...")
     # inFile: file
-    inFile = open(WORDLIST_FILENAME, 'r', 0)
+    with open(WORDLIST_FILENAME) as inFile:
     # wordlist: list of strings
-    wordlist = []
-    for line in inFile:
-        wordlist.append(line.strip().lower())
-    print(f" '{len(wordlist)}', words loaded.")
-    return wordlist
+        wordlist = []
+        for line in inFile:
+            wordlist.append(line.strip().lower())
+        print(f"'{len(wordlist)}', words loaded.")
+        return wordlist
 
 def get_frequency_dict(sequence):
     """
@@ -55,3 +56,112 @@ def get_frequency_dict(sequence):
 wordlist = load_words()
 
 # TO DO: your code begins here!
+def getWord():
+    """
+    check the user input a lowercase english letter. And return it. 
+    Returns:
+        str: return only one lowercase english letter
+    """
+    while True:
+        char = str(input())
+        if len(char) == 1 and (97 <= ord(char) <= 122):
+            return char
+        elif len(char) > 1:
+            print("Only one character is allowed.")
+        elif ord(char)<97 or ord(char)>122:
+            print("Only lowercase english alphabet is allowed.")
+        else:
+            print("invalid input. somethings wrong.")
+
+
+def isValid(word:list, wordList:list, num:int):
+    """
+    Check word is ok to win.
+
+    Args:
+        word (list): 
+        wordList (list): 
+
+    Returns:
+        bool: whether word is in list or not. and num should be over three.
+    """
+    cnt = 0
+    isInList = False
+    while cnt < len(wordList):
+        if wordList[cnt] == word and num > 3:
+            # print(f"wordlist[{cnt}] is '{wordlist[cnt]}'. word is '{word}'")
+            isInList = True
+        cnt += 1
+    return isInList
+
+def isPossible(word:list, wordList:list):
+    """
+    Check whether word is subset of wordList.
+
+    Args:
+        word (list): 
+        wordList (list): 
+    Returns:
+        bool: whether word subset or not.
+    """
+    length = len(word)
+    for w in wordlist:
+        if length < len(w):
+            cnt = 0
+            for i, c in enumerate(word):
+                if w[i] == c:
+                    cnt += 1
+            if cnt == length:
+                return True
+    return False
+
+
+def whichPlayerTurn(cnt:int):
+    """
+    Check which players turn
+
+    Args:
+        cnt (int): counter for while loop to check the turn
+
+    Returns:
+        int: '1' for player1, '2' for player2
+    """
+    if cnt%2 == 0:
+        print("Turn for player1 to input a character.")
+        return 1
+    else:
+        print("Turn for player2 to input a character.")
+        return 2
+
+def game_start(wordlist:list):
+    isOver = False
+    cnt = 0
+    li = []
+    while (not isOver):
+        playerNumber = whichPlayerTurn(cnt)
+        cnt += 1
+        li.append(getWord())
+        # print(f"li is {li}")
+        if isValid(''.join(li), wordlist, cnt) == True:
+            print(f"Player{playerNumber} Complte the word '{''.join(li)}'\nWIN!")
+            isOver = True
+        if isPossible(li, wordlist) == True:
+            continue
+        else:
+            print(f"There is no word begin with '{''.join(li)}' left in word list")
+            print(f"Player{playerNumber} Loose!")
+            isOver = True
+    
+def play_game(wordlist:list):
+    while True:
+        cmd = input('Enter n to play a new game, or e to end game: ')
+        if cmd == 'n':
+            game_start(wordlist)
+            print()
+        elif cmd == 'e':
+            break
+        else:
+            print("Invalid command.")
+
+if __name__ == '__main__':
+    play_game(wordlist)
