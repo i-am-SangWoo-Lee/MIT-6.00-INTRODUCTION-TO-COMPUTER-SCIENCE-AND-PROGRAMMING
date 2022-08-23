@@ -29,13 +29,13 @@ def load_words():
     """
     print("Loading word list from file...")
     # inFile: file
-    inFile = open(WORDLIST_FILENAME, 'r', 0)
-    # wordlist: list of strings
-    wordlist = []
-    for line in inFile:
-        wordlist.append(line.strip().lower())
-    print("  ", len(wordlist), "words loaded.")
-    return wordlist
+    with open(WORDLIST_FILENAME) as inFile:
+        # wordlist: list of strings
+        wordlist = []
+        for line in inFile:
+            wordlist.append(line.strip().lower())
+        print("  ", len(wordlist), "words loaded.")
+        return wordlist
 
 def get_frequency_dict(sequence):
     """
@@ -98,7 +98,7 @@ def display_hand(hand):
     """
     for letter in hand.keys():
         for j in range(hand[letter]):
-             print(letter,)              # print(all on the same line
+             print(letter,end=', ')              # print(all on the same line
     print()                             # print an empty line
 
 #
@@ -117,7 +117,7 @@ def deal_hand(n):
     returns: dictionary (string -> int)
     """
     hand={}
-    num_vowels = n / 3
+    num_vowels = n // 3
     
     for i in range(num_vowels):
         x = VOWELS[random.randrange(0,len(VOWELS))]
@@ -213,13 +213,13 @@ def play_hand(hand, word_list):
         else:
             isValid = is_valid_word(userWord, hand, word_list)
             if not isValid:
-                print('Invalid word, please try again.'
+                print('Invalid word, please try again.')
             else:
                 points = get_word_score(userWord, initial_handlen)
                 total += points
-                print('%s earned %d points. Total: %d points' % (userWord, points, total)
+                print(f'{userWord} earned {points} points. Total: {total} points')
                 hand = update_hand(hand, userWord)
-    print('Total score: %d points.' % total
+    print(f'Total score: {total} points.')
 
 
 #
@@ -244,7 +244,7 @@ def play_game(word_list):
 
     hand = deal_hand(HAND_SIZE) # random init
     while True:
-        cmd = raw_input('Enter n to deal a new hand, r to replay the last hand, or e to end game: ')
+        cmd = input('Enter n to deal a new hand, r to replay the last hand, or e to end game: ')
         if cmd == 'n':
             hand = deal_hand(HAND_SIZE)
             play_hand(hand.copy(), word_list)
@@ -255,7 +255,7 @@ def play_game(word_list):
         elif cmd == 'e':
             break
         else:
-            print("Invalid command."
+            print("Invalid command.")
 
 #
 # Build data structures used for entire session and play game
