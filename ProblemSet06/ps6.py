@@ -4,7 +4,7 @@
 #
 
 import random
-import string
+import time
 
 VOWELS = 'aeiou'
 CONSONANTS = 'bcdfghjklmnpqrstvwxyz'
@@ -207,7 +207,10 @@ def play_hand(hand, word_list):
     while sum(hand.values()) > 0:
         print('Current Hand:',)
         display_hand(hand)
+        start_time = time.time()
         userWord = input('Enter word, or a . to indicate that you are finished: ')
+        end_time = time.time()
+        print(f"It took {(end_time - start_time):.2f} seconds to provide an answer.")
         if userWord == '.':
              break
         else:
