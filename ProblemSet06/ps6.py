@@ -9,6 +9,7 @@ import time
 VOWELS = 'aeiou'
 CONSONANTS = 'bcdfghjklmnpqrstvwxyz'
 HAND_SIZE = 7
+MAX_TIME = 10
 
 SCRABBLE_LETTER_VALUES = {
     'a': 1, 'b': 3, 'c': 3, 'd': 2, 'e': 1, 'f': 4, 'g': 2, 'h': 4, 'i': 1, 'j': 8, 'k': 5, 'l': 1, 'm': 3, 'n': 1, 'o': 1, 'p': 3, 'q': 10, 'r': 1, 's': 1, 't': 1, 'u': 1, 'v': 4, 'w': 4, 'x': 8, 'y': 4, 'z': 10
@@ -203,6 +204,8 @@ def play_hand(hand, word_list):
       word_list: list of lowercase strings
     """    
     total = 0
+    done = False
+    left_time = MAX_TIME
     initial_handlen = sum(hand.values())
     while sum(hand.values()) > 0:
         print('Current Hand:',)
@@ -210,19 +213,30 @@ def play_hand(hand, word_list):
         start_time = time.time()
         userWord = input('Enter word, or a . to indicate that you are finished: ')
         end_time = time.time()
-        print(f"It took {(end_time - start_time):.2f} seconds to provide an answer.")
-        if userWord == '.':
+        spent_time = end_time - start_time
+        div_time = max(1, spent_time) # if spent_time less than one , will divide score with one
+        left_time -= spent_time
+        print(f"It took {spent_time:.2f} seconds to provide an answer.")
+        if left_time >= 0:
+            print(f"You have {left_time:.2f} seconds remaining.")
+        else:
+            print(f"Total time exceeds {-left_time:.2f} seconds. ", end='')
+            done = True
+        if userWord == '.' or done:
              break
         else:
             isValid = is_valid_word(userWord, hand, word_list)
             if not isValid:
                 print('Invalid word, please try again.')
             else:
-                points = get_word_score(userWord, initial_handlen)
+                points = get_word_score(userWord, initial_handlen)/div_time
                 total += points
-                print(f'{userWord} earned {points} points. Total: {total} points')
+                print(f'{userWord} earned {points:.2f} points. Total: {total:.2f} points')
                 hand = update_hand(hand, userWord)
-    print(f'Total score: {total} points.')
+    if done:
+        print(f"You scored {total:.2f} points.")
+    else:
+        print(f'Total score: {total:.2f} points.')
 
 
 #
