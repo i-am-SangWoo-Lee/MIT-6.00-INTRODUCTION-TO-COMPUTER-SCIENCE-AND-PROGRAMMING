@@ -15,7 +15,7 @@ VALUE, WORK = 0, 1
 #
 # Problem 1: Building A Subject Dictionary
 #
-def loadSubjects(filename):
+def loadSubjects(filename:str) -> dict:
     """
     Returns a dictionary mapping subject name to (value, work), where the name
     is a string and the value and work are integers. The subject information is
@@ -27,15 +27,17 @@ def loadSubjects(filename):
 
     # The following sample code reads lines from the specified file and prints
     # each one.
-    inputFile = open(filename)
-    for line in inputFile:
-        print(line
-
+    dic = {}
+    with open(filename) as inputFile:    
+        for line in inputFile:
+            subject, value, work = line.split(sep=',') 
+            dic[subject] = (int(value), int(work))
+    return dic
     # TODO: Instead of printing each line, modify the above to parse the name,
     # value, and work of each subject and create a dictionary mapping the name
     # to the (value, work).
 
-def printSubjects(subjects):
+def printSubjects(subjects:dict):
     """
     Prints a string containing name, value, and work of each subject in
     the dictionary of subjects and total value and work of all subjects
@@ -45,7 +47,7 @@ def printSubjects(subjects):
         return 'Empty SubjectList'
     res = 'Course\tValue\tWork\n======\t====\t=====\n'
     subNames = subjects.keys()
-    subNames.sort()
+    subNames = sorted(subNames)
     for s in subNames:
         val = subjects[s][VALUE]
         work = subjects[s][WORK]
@@ -54,7 +56,7 @@ def printSubjects(subjects):
         totalWork += work
     res = res + '\nTotal Value:\t' + str(totalVal) +'\n'
     res = res + 'Total Work:\t' + str(totalWork) + '\n'
-    print(res
+    print(res)
 
 def cmpValue(subInfo1, subInfo2):
     """
@@ -83,7 +85,7 @@ def cmpRatio(subInfo1, subInfo2):
     val2 = subInfo2[VALUE]
     work1 = subInfo1[WORK]
     work2 = subInfo2[WORK]
-    return float(val1) / work1 > float(val2) / work2
+    return (float(val1) / work1) > (float(val2) / work2)
 
 #
 # Problem 2: Subject Selection By Greedy Optimization
@@ -189,3 +191,7 @@ def dpTime():
 #
 # TODO: write here your observations regarding dpAdvisor's performance and
 # how its performance compares to that of bruteForceAdvisor.
+
+if __name__ == '__main__':
+    subjects = loadSubjects(SUBJECT_FILENAME)
+    printSubjects(subjects)
