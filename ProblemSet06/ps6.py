@@ -6,6 +6,7 @@
 from itertools import permutations
 import random
 from re import A
+from this import d
 import time
 
 VOWELS = 'aeiou'
@@ -167,11 +168,6 @@ def is_valid_word(word:str, hand:dict, word_list:list) -> str:
             return False
     return word in word_list
 
-# def return_permuation(hand:list, li:list) -> list:
-#     for i in range(len(hand)):
-        
-
-
 def dict2list(hand:dict) -> list:
     li = []
     tmp = hand.copy()
@@ -191,37 +187,46 @@ def return_max_key(dic:dict) -> str:
     res = key[val.index(max(val))] 
     return res
 
-def pick_best_word(hand:dict, points_dict:dict) -> str:
-    """
-    Return the highest scoring word from points_dict that can be made with the given hand.
-    
-    Return '.' if no words can be made with the given hand.
-    """
+def return_permutation(hand:dict) -> list:
     liHand = dict2list(hand)
-    # print(f"liHand is {liHand}")
     per = []
     for i in range(1, len(liHand)):
         per += permutations(liHand, i)
     li = []
     for i in range(len(per)):
         li.append(''.join(per[i]))
-    li = list(set(li))
-    # print(f"length is {len(li)}")
-    # print(f"per is {li}")
+    list(set(li)).sort(key=lambda x: len(x), reverse=True)
+    return li
+
+def pick_best_word_faster(hand:dict, rearrange_dict:dict) -> str:
+    """
+    Return the highest scoring word from points_dict that can be made with the given hand.
+    Return '.' if no words can be made with the given hand.
+    """
+    # 👇 words that can be made out of the letters in hand.
+    li = return_permutation(hand) 
+    for word in li[::-1]:
+        print(word)
+        if word in rearrange_dict:
+            return rearrange_dict[word]
+    return '.'
+
+def pick_best_word(hand:dict, points_dict:dict) -> str:
+    """
+    Return the highest scoring word from points_dict that can be made with the given hand.
+    
+    Return '.' if no words can be made with the given hand.
+    """
+    li = return_permutation(hand)
     dic = {}
     done = False
     for word in li:
-        if ''.join(word) in points_dict:
-            # print("!!!")
-            # print(f"word is {word}")
-            # print(f"word val is {points_dict[word]}")
+        if word in points_dict:
             dic[word] = points_dict[word]
             done = True
     if done is False:
         return '.'
-    # print(f"dic1 is {dic}")
     res = return_max_key(dic)
-    # print(f"res is {res}")
     return res
 
 def get_words_to_points(word_list:list) -> dict:
@@ -232,6 +237,12 @@ def get_words_to_points(word_list:list) -> dict:
     for word in word_list:
         dic[word] = get_word_score(word, -1)
     return dic
+
+def get_word_reaarangements(word_list:list) -> dict:
+    d = {}
+    for word in word_list:
+        d[''.join(sorted(word))] = word
+    return d
 
 def play_hand(hand:dict, word_list:list):
     """
@@ -263,14 +274,17 @@ def play_hand(hand:dict, word_list:list):
     done = False
     left_time = MAX_TIME
     initial_handlen = sum(hand.values())
-    points_dict = get_words_to_points(word_list)
+    # points_dict = get_words_to_points(word_list)
+    rearrange_dict = get_word_reaarangements(word_list)
     while sum(hand.values()) > 0:
         print('Current Hand:',)
         display_hand(hand)
-        input()
+        # input()
         start_time = time.time()
         # userWord = input('Enter word, or a . to indicate that you are finished: ') # Replaced by pick_best_word
-        best_word = pick_best_word(hand, points_dict)
+        # best_word = pick_best_word(hand, points_dict)
+        best_word = pick_best_word_faster(hand, rearrange_dict)
+        print(f"bestWord is {best_word}")
         end_time = time.time()
         spent_time = end_time - start_time
         div_time = max(1, spent_time) # if spent_time less than one , will divide score with one
@@ -337,6 +351,16 @@ def play_game(word_list:list):
 #
 # Build data structures used for entire session and play game
 #
+
 if __name__ == '__main__':
+    print("!!")
     word_list = load_words()
     play_game(word_list)
+
+
+## Problem 5 ##
+# pick_best_word and pick_best_word_faster itselves has no diffrence on complexity
+# But difference comes from the points_dict and reaarange_dict
+# I thought there were difference but It seems don't
+# I guess I screwed up.
+# I don't know what's going on.
