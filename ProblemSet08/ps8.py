@@ -122,6 +122,25 @@ def greedyAdvisor(subjects:dict, maxWork:int, comparator) -> dict:
         workHour += subjects[cmpKey][WORK]
     return dicRes
 
+def greedyTime(comparator):
+    """
+    Runs tests on bruteForceAdvisor and measures the time required to compute
+    an answer.
+    """
+    ratio = None
+    previous = 0
+    for i in range(1, 100):
+        start = time.time()
+        greedyAdvisor(subjects, i, comparator)
+        end = time.time()
+        time_spent = end - start
+        if previous > 0.00:
+            ratio = time_spent / previous
+            print(f"At maxwork: {i}, It took {time_spent:.2f} seconds. And ratio is {ratio:.2f}")
+        else:
+            print(f"At maxwork: {i}, It took {time_spent:.2f} seconds.")
+        previous = time_spent 
+
 def bruteForceAdvisor(subjects:dict, maxWork):
     """
     Returns a dictionary mapping subject name to (value, work), which
@@ -132,8 +151,9 @@ def bruteForceAdvisor(subjects:dict, maxWork):
     maxWork: int >= 0
     returns: dictionary mapping subject name to (value, work)
     """
-    nameList = subjects.keys()
-    tupleList = subjects.values()
+    nameList = list(subjects.keys())
+    tupleList = list(subjects.values())
+    # print(tupleList)
     bestSubset, bestSubsetValue = \
             bruteForceAdvisorHelper(tupleList, maxWork, 0, None, None, [], 0, 0)
     outputSubjects = {}
@@ -141,8 +161,8 @@ def bruteForceAdvisor(subjects:dict, maxWork):
         outputSubjects[nameList[i]] = tupleList[i]
     return outputSubjects
 
-def bruteForceAdvisorHelper(subjects, maxWork, i, bestSubset, bestSubsetValue,
-                            subset:list, subsetValue, subsetWork):
+def bruteForceAdvisorHelper(subjects:list, maxWork:int, i:int, bestSubset:list, bestSubsetValue:int,
+                            subset:list, subsetValue:int, subsetWork:int):
     # Hit the end of the list.
     if i >= len(subjects):
         if bestSubset == None or subsetValue > bestSubsetValue:
@@ -173,13 +193,26 @@ def bruteForceTime():
     Runs tests on bruteForceAdvisor and measures the time required to compute
     an answer.
     """
+    ratio = None
+    previous = 0
+    for i in range(1, 100):
+        start = time.time()
+        bruteForceAdvisor(subjects, i)
+        end = time.time()
+        time_spent = end - start
+        if previous > 0.00:
+            ratio = time_spent / previous
+            print(f"At maxwork: {i}, It took {time_spent:.2f} seconds. And ratio is {ratio:.2f}")
+        else:
+            print(f"At maxwork: {i}, It took {time_spent:.2f} seconds.")
+        previous = time_spent
     # TODO...
 
 # Problem 3 Observations
 # ======================
 #
 # TODO: write here your observations regarding bruteForceTime's performance
-
+# time grows exponentially. growth ratio is 4 ~ 2 at each step.
 #
 # Problem 4: Subject Selection By Dynamic Programming
 #
@@ -214,6 +247,8 @@ if __name__ == '__main__':
     subjects = loadSubjects(SUBJECT_FILENAME)
     # print(subjects)
     # printSubjects(subjects)
-    print(f"in cmpValue {greedyAdvisor(subjects, 45, cmpValue)}")
-    print(f"in cmpRatio {greedyAdvisor(subjects, 45, cmpRatio)}")
-    print(f"in cmpWork {greedyAdvisor(subjects, 40, cmpWork)}")
+    # print(f"in cmpValue {greedyAdvisor(subjects, 45, cmpValue)}")
+    # print(f"in cmpRatio {greedyAdvisor(subjects, 45, cmpRatio)}")
+    # print(f"in cmpWork {greedyAdvisor(subjects, 40, cmpWork)}")
+    bruteForceTime()
+    greedyTime(cmpRatio)
