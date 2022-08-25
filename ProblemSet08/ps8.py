@@ -7,9 +7,11 @@
 # Time:
 #
 
+from multiprocessing.sharedctypes import Value
+from re import M
 import time
 
-SUBJECT_FILENAME = "subjects.txt"
+SUBJECT_FILENAME = "/Users/goaswon/Code/MIT600/ProblemSet08/subjects.txt"
 VALUE, WORK = 0, 1
 
 #
@@ -85,12 +87,14 @@ def cmpRatio(subInfo1, subInfo2):
     val2 = subInfo2[VALUE]
     work1 = subInfo1[WORK]
     work2 = subInfo2[WORK]
-    return (float(val1) / work1) > (float(val2) / work2)
+    ratio1 = float(val1) / work1
+    ratio2 = float(val2) / work2
+    return ratio1 > ratio2 
 
 #
 # Problem 2: Subject Selection By Greedy Optimization
 #
-def greedyAdvisor(subjects, maxWork, comparator):
+def greedyAdvisor(subjects:dict, maxWork:int, comparator) -> dict:
     """
     Returns a dictionary mapping subject name to (value, work) which includes
     subjects selected by the algorithm, such that the total work of subjects in
@@ -103,8 +107,22 @@ def greedyAdvisor(subjects, maxWork, comparator):
     returns: dictionary mapping subject name to (value, work)
     """
     # TODO...
+    dicRes = {}
+    workHour = 0
+    cmpKey = None
+    while maxWork - workHour > 0:
+        cmpVal = (0, 10000)
+        for key, val in subjects.items():
+            if maxWork - (val[WORK] + workHour) >= 0:
+                if key not in dicRes.keys():
+                    if comparator(val, cmpVal):
+                        cmpVal = val
+                        cmpKey = key
+        dicRes[cmpKey] = subjects[cmpKey]
+        workHour += subjects[cmpKey][WORK]
+    return dicRes
 
-def bruteForceAdvisor(subjects, maxWork):
+def bruteForceAdvisor(subjects:dict, maxWork):
     """
     Returns a dictionary mapping subject name to (value, work), which
     represents the globally optimal selection of subjects using a brute force
@@ -124,7 +142,7 @@ def bruteForceAdvisor(subjects, maxWork):
     return outputSubjects
 
 def bruteForceAdvisorHelper(subjects, maxWork, i, bestSubset, bestSubsetValue,
-                            subset, subsetValue, subsetWork):
+                            subset:list, subsetValue, subsetWork):
     # Hit the end of the list.
     if i >= len(subjects):
         if bestSubset == None or subsetValue > bestSubsetValue:
@@ -194,4 +212,8 @@ def dpTime():
 
 if __name__ == '__main__':
     subjects = loadSubjects(SUBJECT_FILENAME)
-    printSubjects(subjects)
+    # print(subjects)
+    # printSubjects(subjects)
+    print(f"in cmpValue {greedyAdvisor(subjects, 45, cmpValue)}")
+    print(f"in cmpRatio {greedyAdvisor(subjects, 45, cmpRatio)}")
+    print(f"in cmpWork {greedyAdvisor(subjects, 40, cmpWork)}")
