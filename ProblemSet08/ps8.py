@@ -13,7 +13,8 @@ import time
 
 SUBJECT_FILENAME = "/Users/goaswon/Code/MIT600/ProblemSet08/subjects.txt"
 VALUE, WORK = 0, 1
-
+memo = {}
+numCalls = 0
 #
 # Problem 1: Building A Subject Dictionary
 #
@@ -193,6 +194,7 @@ def bruteForceTime():
     Runs tests on bruteForceAdvisor and measures the time required to compute
     an answer.
     """
+    # TODO...
     ratio = None
     previous = 0
     for i in range(1, 100):
@@ -206,7 +208,6 @@ def bruteForceTime():
         else:
             print(f"At maxwork: {i}, It took {time_spent:.2f} seconds.")
         previous = time_spent
-    # TODO...
 
 # Problem 3 Observations
 # ======================
@@ -216,7 +217,7 @@ def bruteForceTime():
 #
 # Problem 4: Subject Selection By Dynamic Programming
 #
-def dpAdvisor(subjects, maxWork):
+def dpAdvisor(subjects:dict, maxWork:int) -> dict:
     """
     Returns a dictionary mapping subject name to (value, work) that contains a
     set of subjects that provides the maximum value without exceeding maxWork.
@@ -226,6 +227,29 @@ def dpAdvisor(subjects, maxWork):
     returns: dictionary mapping subject name to (value, work)
     """
     # TODO...
+    memo = {}
+    return fastDPAdvisor(subjects, maxWork, memo)
+
+def fastDPAdvisor(subjects:dict, maxWork:int, memo:dict, li:list=None) -> dict:
+    if maxWork <= 0:
+        return memo
+    global numCalls
+    numCalls += 1
+    if numCalls == 1:
+        li = [(val, key) for key, val in subjects.items()]
+        li.sort(key=lambda x: (x[0][0], -x[0][1]), reverse=True)
+    maxValSub = li[0][1]
+    maxval = li[0][0]
+    workhour = maxval[1] 
+    del li[0]
+    if maxWork >= workhour:
+        memo[maxValSub] = maxval
+        # print(memo)
+        fastDPAdvisor(subjects, maxWork - workhour, memo, li)
+    else:
+        fastDPAdvisor(subjects, maxWork, memo, li)
+    return memo
+
 
 #
 # Problem 5: Performance Comparison
@@ -236,12 +260,32 @@ def dpTime():
     answer.
     """
     # TODO...
+    ratio = None
+    previous = 0
+    for i in range(1, 100):
+        global numCalls
+        numCalls = 0
+        start = time.time()
+        print(dpAdvisor(subjects, i))
+        end = time.time()
+        time_spent = end - start
+        if previous > 0.00:
+            ratio = time_spent / previous
+            print(f"At maxwork: {i}, It took {time_spent:.2f} seconds. And ratio is {ratio:.2f}")
+            print(f"numCall is {numCalls}")
+        else:
+            print(f"At maxwork: {i}, It took {time_spent:.2f} seconds.")
+            print(f"numCall is {numCalls}")
+        previous = time_spent
+
 
 # Problem 5 Observations
 # ======================
 #
 # TODO: write here your observations regarding dpAdvisor's performance and
 # how its performance compares to that of bruteForceAdvisor.
+# dynamic programming is much faster than brute force.
+# almost instant
 
 if __name__ == '__main__':
     subjects = loadSubjects(SUBJECT_FILENAME)
@@ -250,5 +294,7 @@ if __name__ == '__main__':
     # print(f"in cmpValue {greedyAdvisor(subjects, 45, cmpValue)}")
     # print(f"in cmpRatio {greedyAdvisor(subjects, 45, cmpRatio)}")
     # print(f"in cmpWork {greedyAdvisor(subjects, 40, cmpWork)}")
-    bruteForceTime()
-    greedyTime(cmpRatio)
+    # bruteForceTime()
+    # greedyTime(cmpRatio)
+    dpTime()
+    # print(dpAdvisor(subjects, 12))
