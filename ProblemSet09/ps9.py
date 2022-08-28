@@ -1,14 +1,15 @@
 # 6.00 Problem Set 9
 #
-# Name:
-# Collaborators:
-# Time:
+# Name: SangWoo Lee
+# Collaborators: None
+# Time: 2022.08.27
 
 from string import *
 
 class Shape(object):
     def area(self):
-        raise AttributeException("Subclasses should override this method.")
+        # raise AttributeException("Subclasses should override this method.")
+        raise AttributeError("Subclasses should override this method.")
 
 class Square(Shape):
     def __init__(self, h):
@@ -54,10 +55,24 @@ class Circle(Shape):
 # Problem 1: Create the Triangle class
 #
 ## TO DO: Implement the `Triangle` class, which also extends `Shape`.
+class Triangle(Shape):
+    def __init__(self, base, height):
+        self.base = base
+        self.height = height
+    def area(self):
+        return f"area is {self.base} * {self.height} * 0.5 = {self.base * self.height * 0.5}"
+    def __str__(self):
+        return f"Triangle with base {self.base} and height {self.height}"
+    def __eq__(self, other):
+        """
+        Two triangles are equal if they have the same dimension.
+        other: object to check for equality
+        """
+        return type(other) == Triangle and self.base*self.height == other.base * other.height
+
 
 #
 # Problem 2: Create the ShapeSet class
-#
 ## TO DO: Fill in the following code skeleton according to the
 ##    specifications.
 
@@ -66,6 +81,7 @@ class ShapeSet:
         """
         Initialize any needed variables
         """
+
         ## TO DO
     def addShape(self, sh):
         """
@@ -110,3 +126,13 @@ def readShapesFromFile(filename):
     """
     ## TO DO
 
+
+if __name__ == '__main__':
+    a = Triangle(3.0, 4.0)
+    b = Triangle(3.1, 4.1)
+    c = Triangle(3.0, 4.0)
+    print(a.area())
+    print(type(a))
+    print(type(a) == Triangle)
+    print(a.__eq__(b))
+    print(a.__eq__(c))
