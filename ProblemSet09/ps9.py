@@ -5,6 +5,7 @@
 # Time: 2022.08.27
 
 from string import *
+# from turtle import shape
 
 class Shape(object):
     def area(self):
@@ -76,12 +77,15 @@ class Triangle(Shape):
 ## TO DO: Fill in the following code skeleton according to the
 ##    specifications.
 
-class ShapeSet:
+class ShapeSet(Shape):
     def __init__(self):
         """
         Initialize any needed variables
         """
-
+        # self.Square = Square
+        # self.Circle = Circle
+        # self.Triangle = Triangle
+        # self.sh = {}
         ## TO DO
     def addShape(self, sh):
         """
@@ -89,12 +93,14 @@ class ShapeSet:
         identical
         sh: shape to be added
         """
+        self.sh = set(list(self.sh).append(sh))
         ## TO DO
     def __iter__(self):
         """
         Return an iterator that allows you to iterate over the set of
         shapes, one shape at a time
         """
+
         ## TO DO
     def __str__(self):
         """
@@ -102,6 +108,15 @@ class ShapeSet:
         the string representation of each shape, categorized by type
         (circles, then squares, then triangles)
         """
+        if self == Circle:
+            term = 'radius'
+        elif self == Square:
+            term = 'side'
+        elif self == Triangle:
+            term = 'side'
+        else:
+            return -1
+        return f"{self} with {term} {self.area}"
         ## TO DO
         
 #
@@ -128,11 +143,13 @@ def readShapesFromFile(filename):
 
 
 if __name__ == '__main__':
-    a = Triangle(3.0, 4.0)
-    b = Triangle(3.1, 4.1)
-    c = Triangle(3.0, 4.0)
-    print(a.area())
-    print(type(a))
-    print(type(a) == Triangle)
-    print(a.__eq__(b))
-    print(a.__eq__(c))
+    # a = Triangle(3.0, 4.0)
+    # b = Triangle(3.1, 4.1)
+    # c = Triangle(3.0, 4.0)
+    # print(a.area())
+    # print(type(a))
+    # print(type(a) == Triangle)
+    # print(a.__eq__(b))
+    # print(a.__eq__(c))
+    d = ShapeSet()
+    print(d)
