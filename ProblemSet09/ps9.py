@@ -22,7 +22,7 @@ class Square(Shape):
         """
         Returns area of the square
         """
-        return self.side**2
+        return float(self.side**2)
     def __str__(self):
         return 'Square with side ' + str(self.side)
     def __eq__(self, other):
@@ -42,7 +42,7 @@ class Circle(Shape):
         """
         Returns approximate area of the circle
         """
-        return 3.14159*(self.radius**2)
+        return float(3.14159*(self.radius**2))
     def __str__(self):
         return 'Circle with radius ' + str(self.radius)
     def __eq__(self, other):
@@ -50,7 +50,10 @@ class Circle(Shape):
         Two circles are equal if they have the same radius.
         other: object to check for equality
         """
-        return type(other) == Circle and self.radius == other.radius
+        if isinstance(other, Circle) and isinstance(self, Circle):
+            if self.radius == other.radius: return True
+            else: return False
+        else: return False
 
 #
 # Problem 1: Create the Triangle class
@@ -58,18 +61,24 @@ class Circle(Shape):
 ## TO DO: Implement the `Triangle` class, which also extends `Shape`.
 class Triangle(Shape):
     def __init__(self, base, height):
-        self.base = base
-        self.height = height
+        self.base = float(base)
+        self.height = float(height)
+
     def area(self):
-        return f"area is {self.base} * {self.height} * 0.5 = {self.base * self.height * 0.5}"
+        return float(self.base * self.height * 0.5)
+
     def __str__(self):
-        return f"Triangle with base {self.base} and height {self.height}"
+        return f"Triangle with base {self.base:0.1f} and height {self.height:0.1f}"
+
     def __eq__(self, other):
         """
         Two triangles are equal if they have the same dimension.
         other: object to check for equality
         """
-        return type(other) == Triangle and self.base*self.height == other.base * other.height
+        if isinstance(self, Triangle) and isinstance(other, Triangle): 
+            if self.base*self.height == other.base * other.height: return True
+            else: return False
+        else: return False
 
 
 #
@@ -77,47 +86,36 @@ class Triangle(Shape):
 ## TO DO: Fill in the following code skeleton according to the
 ##    specifications.
 
-class ShapeSet(Shape):
-    def __init__(self):
+class ShapeSet():
+    def __init__(self, ):
         """
         Initialize any needed variables
         """
-        # self.Square = Square
-        # self.Circle = Circle
-        # self.Triangle = Triangle
-        # self.sh = {}
-        ## TO DO
+        self.shapes = [] 
+
     def addShape(self, sh):
         """
         Add shape sh to the set; no two shapes in the set may be
         identical
         sh: shape to be added
         """
-        self.sh = set(list(self.sh).append(sh))
-        ## TO DO
+        if sh not in self.shapes:
+            self.shapes.append(sh)
+
     def __iter__(self):
         """
         Return an iterator that allows you to iterate over the set of
         shapes, one shape at a time
         """
+        return iter(self.shapes)
 
-        ## TO DO
     def __str__(self):
         """
         Return the string representation for a set, which consists of
         the string representation of each shape, categorized by type
         (circles, then squares, then triangles)
         """
-        if self == Circle:
-            term = 'radius'
-        elif self == Square:
-            term = 'side'
-        elif self == Triangle:
-            term = 'side'
-        else:
-            return -1
-        return f"{self} with {term} {self.area}"
-        ## TO DO
+        return '\n'.join(sh.__str__() for sh in self.shapes)
         
 #
 # Problem 3: Find the largest shapes in a ShapeSet
@@ -129,6 +127,14 @@ def findLargest(shapes):
     shapes: ShapeSet
     """
     ## TO DO
+    res = [] 
+    max_area = max(sh.area() for sh in shapes)
+    print(f"max_area:{max_area}")
+    for sh in shapes:
+        if sh.area() == max_area:
+            res.append(sh)
+    return tuple(res)
+
 
 #
 # Problem 4: Read shapes from a file into a ShapeSet
@@ -140,16 +146,18 @@ def readShapesFromFile(filename):
     filename: string
     """
     ## TO DO
-
+    ss = ShapeSet()
+    with open(filename) as f:
+        for l in f: 
+            l = l.rstrip().split(',')
+            if l[0].lower() == 'circle':
+                ss.addShape(Circle(l[1]))
+            elif l[0].lower() == 'square':
+                ss.addShape(Square(l[1]))
+            elif l[0].lower() == 'triangle':
+                ss.addShape(Triangle(l[1], l[2]))
+    return ss
 
 if __name__ == '__main__':
-    # a = Triangle(3.0, 4.0)
-    # b = Triangle(3.1, 4.1)
-    # c = Triangle(3.0, 4.0)
-    # print(a.area())
-    # print(type(a))
-    # print(type(a) == Triangle)
-    # print(a.__eq__(b))
-    # print(a.__eq__(c))
-    d = ShapeSet()
-    print(d)
+    ss = readShapesFromFile('shapes.txt')
+    findLargest(ss)
